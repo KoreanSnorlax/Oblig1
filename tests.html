@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+    <meta charset="utf-8">
+    <title>Test Oblig1</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.14.1.css">
+
+
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="https://code.jquery.com/qunit/qunit-2.14.1.js"></script>
+  <script src="functions.js"></script>
+
+  <script>
+
+        QUnit.test("sjekk om det blir noe penger tilbake når det er betalt akkurat", function (assert) {
+            const actual = calcChange(30, 30);
+            const expected = 0;
+            assert.equal(actual, expected);
+        });
+        QUnit.test("Se om det blir igjen penger om det er betalt for mye", function (assert) {
+            const actual = calcChange(30,43);
+            const expected = 13;
+            assert.equal(actual, expected);
+        });
+        QUnit.test("Se om det kommer penger tilbake når det ikke er betalt nok", function (assert) {
+            const actual = calcChange(30,20);
+            const expected = null;
+            assert.equal(actual, expected);
+        });
+
+  </script>
+
+</body>
