@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Oblig 1</title>
+    <style>
+        #choiceDisplay{
+            width: 40vh;
+            height: 15vh;
+            grid-template-rows: 1fr 1fr 1fr;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        #costDisplay{
+            width: 40vh;
+            height: 10vh;
+        }
+        .coffeeChoice{
+            width: 8vh;
+            height: 5vh;
+        }
+        .left{
+            float: left;
+        }
+        .priceChoice{
+            width: 4vh;
+            height: 3vh;
+        }
+        #gaveWater{
+            font-size: 3vh;
+        }
+        #finishButton{
+            width: 10vh;
+            height: 3vh;
+        }
+        #refillDisplay{
+            font-size: 5vh;
+        }
+        #coffeePay{
+            height: 2vh;
+            width: 5vh;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script src="oblig1View.js"></script>
+    <script src="oblig1Controller.js"></script>
+    <script>
+        // Model
+        var amountBeforeRefill = 1;
+        var priceCoffee = 30;
+        var amountPaid = 0;
+        var pickedCoffee = "";
+
+        // view 
+        updateView();
+
+        // Controller
+
+
+    
+
+    </script>
+</body>
+
+</html>
