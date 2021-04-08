@@ -2,6 +2,7 @@ function updateView(){
     if(amountBeforeRefill > 0){
 
         document.getElementById('app').innerHTML = `
+        <div id="coffeeLeft">Det er ${amountBeforeRefill} kaffe igjen før det trengs påfyll</div>
         <div id="choiceDisplay">
             <button class="coffeeChoice left" onClick="pickCoffee(this)">Svart Kaffe</button>
             <button class="coffeeChoice left" onClick="pickCoffee(this)">Cappuccino</button>
@@ -18,7 +19,7 @@ function updateView(){
         </div>
         <div id="changeLeft"></div>
         <div id="costDisplay"></div>
-        <div id="coffeeLeft">Det er ${amountBeforeRefill} kaffe igjen før det trengs påfyll</div>
+        
     `;
     }
     else{
