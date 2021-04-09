@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Oblig 1</title>
+    <title>Oblig 1 - Kaffemaskin</title>
     <link rel="stylesheet" href="style.css">
     <style>
 
@@ -18,10 +18,17 @@
     <script>
 
         // Model
+        var appDisplay = "";
         var amountBeforeRefill = getRandomNumber();
         var priceCoffee = 30;
         var amountPaid = 0;
         var pickedCoffee = "";
+        var displayPayment = "";
+        var changeToGiveBack = "";
+        var refillNeeded = "";
+        var refill = "";
+        var hotWaterStatus = "";
+        var disabled = "";
 
         // view 
         updateView();
