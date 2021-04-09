@@ -1,89 +1,106 @@
 function updateView(){
-    if(amountBeforeRefill > 0){
-
-        document.getElementById('app').innerHTML = `
-        <div id="coffeeLeft">Det er ${amountBeforeRefill} kaffe igjen før det trengs påfyll</div>
-        <div id="choiceDisplay">
-            <button class="coffeeChoice left" onClick="pickCoffee(this)">Svart Kaffe</button>
-            <button class="coffeeChoice left" onClick="pickCoffee(this)">Cappuccino</button>
-            <button class="coffeeChoice left" onClick="pickCoffee(this)">Americano</button>
-            <br/>
-            <button class="coffeeChoice left" onClick="pickCoffee(this)">Espresso</button>
-            <button class="coffeeChoice left" onClick="pickCoffee(this)">Dobbel Espresso</button>
-            <button class="coffeeChoice left" onClick="pickCoffee(this)">Kaffe Latte</button>
-            <br/>
-            <button class="coffeeChoice left" onClick="pickCoffee(this)">Kaffe Mocca</button>
-            <button class="coffeeChoice left" onClick="pickCoffee(this)">Ristretto</button>
-            <button class="coffeeChoice left" onClick="pickCoffee(this)">Kaffe Macchiato</button>
-            <button class="coffeeChoice left" onClick="pickCoffee(this)">Varmt Vann</button>
-        </div>
-        <div id="changeLeft"></div>
-        <div id="costDisplay"></div>
-        
+    document.getElementById('app').innerHTML = `
+    <div id="coffeeLeft">Det er ${amountBeforeRefill} kaffe igjen før det trengs påfyll</div>
+    <div id="choiceDisplay">
+        <button ${disabled} class="coffeeChoice left" onClick="pickCoffee(this)">Svart Kaffe</button>
+        <button ${disabled} class="coffeeChoice left" onClick="pickCoffee(this)">Cappuccino</button>
+        <button ${disabled} class="coffeeChoice left" onClick="pickCoffee(this)">Americano</button>
+        <br/>
+        <button ${disabled} class="coffeeChoice left" onClick="pickCoffee(this)">Espresso</button>
+        <button ${disabled} class="coffeeChoice left" onClick="pickCoffee(this)">Dobbel Espresso</button>
+        <button ${disabled} class="coffeeChoice left" onClick="pickCoffee(this)">Kaffe Latte</button>
+        <br/>
+        <button ${disabled} class="coffeeChoice left" onClick="pickCoffee(this)">Kaffe Mocca</button>
+        <button ${disabled} class="coffeeChoice left" onClick="pickCoffee(this)">Ristretto</button>
+        <button ${disabled} class="coffeeChoice left" onClick="pickCoffee(this)">Kaffe Macchiato</button>
+        <button ${hotWaterStatus} class="coffeeChoice left" onClick="pickCoffee(this)">Varmt Vann</button>
+    </div>
+    <div id="changeLeft">${changeToGiveBack}</div>
+    <div id="costDisplay">${displayPayment}</div>
+    <div id="refillDisplay">${refillNeeded}${refill}</div>    
     `;
-    }
-    else{
-        document.getElementById('app').innerHTML = `
-        <div id="refillDisplay">Da er det tomt for kaffe, fyll på mer.</div>
-        <button class="refillButton" onClick="refillCoffee(this)">Fyll på</button>
-    `; 
-    }
 } 
 
+
+
+
+
+
+
+
+
+
 function showPrice(){
-    document.getElementById('costDisplay').innerHTML = `
+    displayPayment = `
     Du har valgt: ${pickedCoffee} <br/>
     Det koster: ${priceCoffee}. <br/>
     Vennligst legg på mynt: <br/>
     <div id="amountMoneyPaid">Du har betalt: ${amountPaid} det er ${priceCoffee - amountPaid} igjen å betale.</div> <br/>
     <input type="text" id="coffeePay" onChange="payForCoffee(this)"></input>
-
     `;
+    disabled = "disabled";
+    hotWaterStatus = "disabled";
+    updateView();
 }
 
 function showReady(){
-    document.getElementById('costDisplay').innerHTML = `
+    displayPayment = `
     <span style="float: right;">Plasser koppen til høyre &#10142;</span> <br/>
     Trykk på knappen når du er klar: <br/>
     <button id="finishButton" class="priceChoice" onClick="youAreWelcome()">Klar!</button>
     `;
+    updateView();
 }
 
 function youAreWelcome(){
-    document.getElementById('costDisplay').innerHTML = `
+    displayPayment = `
     <div id="gaveWater">Vær så god! :D <br/>
-    <span style="font-size: 2vh;">Starter på nytt om 10 sekunder!</span></div>
+    <span style="font-size: 2vh;">Starter på nytt om 5 sekunder!</span></div>
     `;
+    updateView();
     startOver();
 }
 
 
 function showChangeLeft(){
     var changeToGive = calcChange(priceCoffee, amountPaid);
-    document.getElementById('changeLeft').innerHTML = `
+    changeToGiveBack = `
     Takk, da er det ${changeToGive} tilbake.
     `;
+    console.log(priceCoffee);
+    console.log(amountPaid);
+    console.log(changeToGive);
+    console.log(changeToGiveBack);
+    updateView();
 }
-
-
-
-
-
-
-
-
-function disableButtons(clickedButton){
-    var list = document.getElementsByClassName('coffeeChoice');
-    for(var i = 0; i<list.length;i++){
-        list[i].disabled = true;
+function checkIfRefillNeeded(){
+    if (amountBeforeRefill>0){
+        return
     }
+    else if(refillNeeded != ""){
+        disabled = "disabled";
+        return
+    }
+    else{
+        showRefill();
+    }
+}
+function showRefill(){
+    disabled = "disabled";
+    hotWaterStatus = "";
+    refillNeeded = `
+    Da er det tomt for kaffe, fyll på!
+    `;
+    refill = `
+    <br/>
+    <button onClick="refillCoffee()">Fyll på kaffe</button>`
+    updateView();
 }
 
 function pickCoffee(chosenCoffee){
     amountPaid = 0;
     coffeePick = chosenCoffee.innerHTML;
     if(amountBeforeRefill > 0 && coffeePick != 'Varmt Vann'){
-        disableButtons(chosenCoffee);
         pickedCoffee = coffeePick; 
         showPrice();
     }
@@ -116,7 +133,12 @@ function payForCoffee(amount){
 
 function refillCoffee(){
     amountBeforeRefill = getRandomNumber();
+    refillNeeded = `
+    Da er det fylt på ${amountBeforeRefill} kaffe.<br/>
+    Starter på nytt om 5 sekunder!
+    `;
     updateView();
+    startOver();
 }
 
 function getRandomNumber(){
@@ -133,6 +155,14 @@ function calcChange(price, paid){
 }
 
 function startOver() {
-    var amountPaid = 0;
-    setTimeout(function(){ updateView() }, 10000);
+    amountPaid = 0;
+    pickedCoffee = "";
+    displayPayment = "";
+    changeToGiveBack = "";
+    disabled = "";
+    hotWaterStatus = "";
+    refillNeeded = "";
+    refill = ""; 
+    setTimeout(function(){ updateView() }, 5000);
+    checkIfRefillNeeded();
 }
