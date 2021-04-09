@@ -135,7 +135,7 @@ function refillCoffee(){
     amountBeforeRefill = getRandomNumber();
     refillNeeded = `
     Da er det fylt på ${amountBeforeRefill} kaffe.<br/>
-    Starter på nytt om 5 sekunder!
+    Starter på nytt!
     `;
     updateView();
     startOver();
